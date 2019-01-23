@@ -7,11 +7,65 @@
 
 package frc.robot;
 
+import frc.robot.RobotMap;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxFrames;
+import com.revrobotics.CANSparkMaxLowLevel;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  protected GenericHID driver_gamepad; //Ports and joystick mapping to be changed later
+  //Playstation DualShock 4 Mapping
+  // Axis 0:    Left Stick X
+  // Axis 1:    Left Stick Y
+  // Axis 2:    Right Stick X
+  // Axis 3:    Left Bumper
+  // Axis 4:    Right Bumper
+  // Axis 5:    RIght Stick Y
+  protected CANSparkMax driveomni;
+  protected DoubleSolenoid hatchDoubleSolenoid;
+  protected Compressor compressor;
+
+  public GenericHID getDriverGamepad() {
+    driver_gamepad = new Joystick(RobotMap.driveGamepad);
+    return driver_gamepad;   
+  }
+
+  public DifferentialDrive getRobotDrive() {
+    DifferentialDrive hdrive = new DifferentialDrive(new CANSparkMax(RobotMap.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless), new CANSparkMax(RobotMap.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless));
+    hdrive.setSafetyEnabled(true);
+    hdrive.setExpiration(Constants.expirationTime);
+    return hdrive;
+  }
+
+  public CANSparkMax getOmniMotor() {
+    driveomni = new CANSparkMax(RobotMap.hDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    return driveomni;
+  }
+
+  public DoubleSolenoid getHatchDoubleSolenoid() {
+    hatchDoubleSolenoid = new DoubleSolenoid(RobotMap.hatchPneumaticForward, RobotMap.hatchPneumaticBackward);
+    return hatchDoubleSolenoid;
+  }
+
+  public Compressor getCompressor() {
+    compressor = new Compressor(RobotMap.compressor);
+    return compressor;
+  }
+
+  //I am editing the code in some way
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
