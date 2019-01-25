@@ -16,8 +16,6 @@ import frc.robot.commands.DriveCommandTeleop;
 public class DriveSubsystem extends Subsystem {
   private Robot robot;
   private OI oi;
-  private CANSparkMax motorLeft, motorRight, motorCenter;
-  //private SparkMAX motorLeftSlave, motorRightSlave;
  
 
   public DriveSubsystem(OI oi, Robot robot) {

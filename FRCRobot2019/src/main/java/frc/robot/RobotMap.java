@@ -18,13 +18,11 @@ public class RobotMap {
   //JOYSTICK PORTS
   public static int driveGamepad = 0;
 
-  //PORTS ON ROBORIO
+  //CAN PORTS
   public static int leftDriveMotor = 0;
   public static int rightDriveMotor = 1;
-
-  //CAN PORTS
-  public static int hDriveMotor = 0;
-  public static int hatchMotor = 1;
+  public static int hDriveMotor = 2;
+  public static int hatchMotor = 3;
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
