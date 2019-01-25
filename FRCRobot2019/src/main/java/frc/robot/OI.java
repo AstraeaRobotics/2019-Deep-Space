@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  protected GenericHID driver_gamepad; //Ports and joystick mapping to be changed later
+  protected GenericHID driver_gamepad = new Joystick(RobotMap.driveGamepad); //Ports and joystick mapping to be changed later
   //Playstation DualShock 4 Mapping
   // Axis 0:    Left Stick X
   // Axis 1:    Left Stick Y
@@ -34,12 +34,13 @@ public class OI {
   // Axis 3:    Left Bumper
   // Axis 4:    Right Bumper
   // Axis 5:    RIght Stick Y
+  //protected Button driveModifier = JoystickButton(driver_gamepad, RobotMap.driveModifierButton);
+  //protected Button spinModifier = JoystickButton(driver_gamepad, RobotMap.spinModifierButton);
   protected CANSparkMax driveomni;
   protected DoubleSolenoid hatchDoubleSolenoid;
   protected Compressor compressor;
 
   public GenericHID getDriverGamepad() {
-    driver_gamepad = new Joystick(RobotMap.driveGamepad);
     return driver_gamepad;   
   }
 

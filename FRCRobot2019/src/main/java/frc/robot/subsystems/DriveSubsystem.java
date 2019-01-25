@@ -16,8 +16,10 @@ import frc.robot.commands.DriveCommandTeleop;
 public class DriveSubsystem extends Subsystem {
   private Robot robot;
   private OI oi;
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  private CANSparkMax motorLeft, motorRight, motorCenter;
+  //private SparkMAX motorLeftSlave, motorRightSlave;
+ 
+
   public DriveSubsystem(OI oi, Robot robot) {
     this.robot = robot;
     this.oi = oi;
@@ -27,7 +29,7 @@ public class DriveSubsystem extends Subsystem {
   public void initDefaultCommand() {
     Command command = new DriveCommandTeleop(oi, robot);
     command.start();
-    // Set the default command for a subsystem here.
+    
     // setDefaultCommand(new MySpecialCommand());
   }
 }

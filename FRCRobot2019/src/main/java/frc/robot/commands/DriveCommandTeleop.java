@@ -12,6 +12,8 @@ public class DriveCommandTeleop extends Command {
     private OI oi;
     private DifferentialDrive robotDrive;
     private CANSparkMax omniMotor;
+    private double driveModifier = 255;
+    private double spinModifier = 255;
 
     public DriveCommandTeleop(OI oi, Robot robot) {
         // Use requires() here to declare subsystem dependencies
@@ -22,15 +24,22 @@ public class DriveCommandTeleop extends Command {
         omniMotor = oi.getOmniMotor();
     }
 
+    public void getModifiers() {
+        driveModifier = 255 - oi.getDriverGamepad().getRawAxis(3);
+        spinModifier = 255 - oi.getDriverGamepad().getRawAxis(4);
+    }
+
     @Override
     protected void execute() {
-        robotDrive.arcadeDrive(0, oi.getDriverGamepad().getRawAxis(0));
-        robotDrive.tankDrive(oi.getDriverGamepad().getRawAxis(5),oi.getDriverGamepad().getRawAxis(5));
-        omniMotor.set(oi.getDriverGamepad().getRawAxis(2)*0.8); 
+        getModifiers();
+        robotDrive.arcadeDrive(0, oi.getDriverGamepad().getRawAxis(2) * spinModifier);
+        robotDrive.tankDrive(oi.getDriverGamepad().getRawAxis(1) * driveModifier, oi.getDriverGamepad().getRawAxis(1) * driveModifier);
+        omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*0.8); 
     }
 
     @Override
     protected boolean isFinished() {
         return false;
     }
+
 }
