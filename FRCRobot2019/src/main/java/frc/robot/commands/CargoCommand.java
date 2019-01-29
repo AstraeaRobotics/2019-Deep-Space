@@ -9,8 +9,8 @@ import frc.robot.*;
 public class CargoCommand extends Command {
     private Robot robot;
     private OI oi;
-    private VictorSPX vict1;
-    private VictorSPX vict2;
+    private VictorSPX intake;
+    private VictorSPX shooter;
 
     public CargoCommand(Robot robot, OI oi) {
         requires(subsystems.CargoSubsystem);
@@ -18,41 +18,41 @@ public class CargoCommand extends Command {
         this.robot = robot;
         this.oi = oi;
 
-        vict1 = new VictorSPX(RobotMap.cargoVictor1p);
-        vict2 = new VictorSPX(RobotMap.cargoVictor2p);
+        intake = new VictorSPX(RobotMap.cargoVictor1p); // Intake motor
+        shooter = new VictorSPX(RobotMap.cargoVictor2p); // Shooting motor
     }
 
-    protected void vict1Forward() {
-        vict1.set(1);
+    protected void intakeForward() {
+        intake.set(1);
     }
 
-    protected void vict1Backward() {
-        vict1.set(-1);
+    protected void intakeReverse() {
+        intake.set(-1);
     }
 
-    protected void vict2Forward1() {
-        vict2.set(.5);
+    protected void shooterForward1() {
+        shooter.set(.5);
     }
 
-    protected void vict2Forward2() {
-        vict2.set(1);
+    protected void shooterForward2() {
+        shooter.set(1);
     }
 
-    protected void vict2Backward() {
-        vict2.set(-1);
+    protected void shooterReverse() {
+        shooter.set(-1);
     }
 
     protected void execute() {
-        if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) {
+        if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) { // Intake full forward
             vict1Forward();
-        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) {
+        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) { // Intake full reverse
             vict1Backward();
-        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) {
-            vict2Forward1();
-        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) {
-            vict2Forward2();
-        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) {
-            vict2Backward();
+        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) { // Shooter half forward
+            shooterForward1();
+        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) { // Shooter full forward
+            shooterForward2();
+        } else if(oi.getDriverGamepad().getRawButtonPressed(/*BUTTON #*/)) { // Shooter full reverse
+            shooterBackward();
         }
     }
 }

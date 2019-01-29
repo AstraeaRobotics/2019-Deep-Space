@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -40,8 +39,6 @@ public class OI {
   protected CANSparkMax driveomni;
   protected DoubleSolenoid hatchDoubleSolenoid;
   protected Compressor compressor;
-  protected Ultrasonic ultsensor1;
-  
 
   public GenericHID getDriverGamepad() {
     return driver_gamepad;   
@@ -67,6 +64,10 @@ public class OI {
   public Compressor getCompressor() {
     compressor = new Compressor(RobotMap.compressor);
     return compressor;
+  }
+
+  public boolean isAutomated(){
+    return true;
   }
 
   //I am editing the code in some way

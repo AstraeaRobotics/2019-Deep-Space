@@ -9,6 +9,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.PIDController;
 import frc.robot.*;
 import frc.robot.commands.*;
 
@@ -20,7 +24,12 @@ public class RampSubsystem extends Subsystem {
   // here. Call these from Commands.
   private Robot robot;
   private OI oi;
-
+  private TalonSRX BAG_Motor;
+  private Encoder AMT103;
+  private TalonSRX _775Pro;
+  private Solenoid Pneumatics;
+  private PIDController PIDController;
+  
   public RampSubsystem(OI oi, Robot robot) {
     this.robot = robot;
     this.oi = oi;

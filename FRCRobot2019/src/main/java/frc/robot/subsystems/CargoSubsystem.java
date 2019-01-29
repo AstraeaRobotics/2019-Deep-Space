@@ -9,8 +9,8 @@ import frc.robot.Robot;
 public class CargoSubsystem {
     private Robot robot;
     private OI oi;
-    private VictorSPX cargoVictor1;
-    private VictorSPX cargoVictor2;
+    private VictorSPX intake;
+    private VictorSPX shooter;
 
     CargoSubsystem(OI oi, Robot robot) {
         this.oi = oi;
