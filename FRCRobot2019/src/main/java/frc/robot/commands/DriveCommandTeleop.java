@@ -29,8 +29,7 @@ public class DriveCommandTeleop extends Command {
     @Override
     protected void execute() {
         if (!oi.isAutomated()) {
-            robotDrive.arcadeDrive(0, oi.getDriverGamepad().getRawAxis(2));
-            robotDrive.tankDrive(getForwardDrive(), getForwardDrive());
+            robotDrive.arcadeDrive(getForwardDrive(), oi.getDriverGamepad().getRawAxis(2));
             omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)); 
         } else {
             

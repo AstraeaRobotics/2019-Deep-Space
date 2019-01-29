@@ -34,4 +34,7 @@ public class RobotMap {
   public static int hatchPneumaticBackward = 1;
   
   public static int compressor = 0;
+
+  public static int cargoVictor1p = 0;
+  public static int cargoVictor2p = 0;
 }

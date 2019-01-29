@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -39,6 +40,8 @@ public class OI {
   protected CANSparkMax driveomni;
   protected DoubleSolenoid hatchDoubleSolenoid;
   protected Compressor compressor;
+  protected Ultrasonic ultsensor1;
+  
 
   public GenericHID getDriverGamepad() {
     return driver_gamepad;   
