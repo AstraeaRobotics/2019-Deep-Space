@@ -71,4 +71,30 @@ public class RampCommandTeleop extends Command {
   @Override
   protected void interrupted() {
   }
+
+  protected void PIDLower () {
+    private boolean keepGoing = true;
+    int pulseWidth = _775Pro.getSensorCollection().getPulseWidthPosition();
+    int end = pulseWidth + RobotMap.ticksInAngle;
+    while (keepGoing) {
+      if (pulseWidth - end >= 3) {
+        _775Pro.set(RobotMap.rampPIDConstant * (pulseWidth - end));
+      } else {
+        keepGoing = false;
+      }
+    }
+  }
+
+  protected void PIDRaise () {
+    private boolean keepGoing = true;
+    int pulseWidth = _775Pro.getSensorCollection().getPulseWidthPosition();
+    int end = pulseWidth + RobotMap.ticksInAngle;
+    while (keepGoing) {
+      if (pulseWidth - end >= 3) {
+        _775Pro.set(-1 * RobotMap.rampPIDConstant * (pulseWidth - end));
+      } else {
+        keepGoing = false;
+      }
+    }
+  }
 }
