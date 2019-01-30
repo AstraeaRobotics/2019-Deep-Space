@@ -16,7 +16,7 @@ public class RampCommandTeleop extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    BAG_Motor = new TalonSRX(RobotMap.rampBAGMotor);
+    BAG_Motor = new TalonSRX(RobotMap.rampBAGMotor); // COULD CHANGE TO SPARKMAX
     AMT103 = new Encoder(RobotMap.rampDigitalInput1, RobotMap.rampDigitalInput2, Encoder.EncodingTyping.k4X);
     _775Pro = new TalonSRX(RobotMap.ramp775Pro);
     Pneumatics = new Solenoid(RobotMap.rampPneumatics); // or double solenoid?
