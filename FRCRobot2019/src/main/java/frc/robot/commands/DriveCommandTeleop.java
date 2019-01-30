@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Robot;
 import frc.robot.OI;
+import frc.robot.Constants;
 
 public class DriveCommandTeleop extends Command { 
     private Robot robot;
@@ -29,10 +30,11 @@ public class DriveCommandTeleop extends Command {
     @Override
     protected void execute() {
         if (robot.system == robot.Mode.HATCH) {
-            robotDrive.arcadeDrive(getForwardDrive(), oi.getDriverGamepad().getRawAxis(2));
-            omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)); 
-        } else {
-            
+            robotDrive.arcadeDrive(getForwardDrive()*Constants.turnSpeed, oi.getDriverGamepad().getRawAxis(2)*Constants.turnSpeed);
+            omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)*Constants.driveSpeed); 
+        } else if (robot.system == robot.Mode.CANNON){
+            robotDrive.arcadeDrive(getForwardDrive()*-Constants.turnSpeed, oi.getDriverGamepad().getRawAxis(2)*-Constants.turnSpeed);
+            omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)*-Constants.driveSpeedSpeed); 
         }
     }
 
