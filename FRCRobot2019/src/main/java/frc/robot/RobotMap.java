@@ -45,4 +45,6 @@ public class RobotMap {
   public static int rampDigitalInput1 = 0;
   public static int rampDigitalInput2 = 0;
   public static int rampPneumatics = 0;
+  //Verrrrrry arbitrary number here that will need to be edited
+  public static int rampEncoderTicks = 30;
 }
