@@ -39,6 +39,7 @@ public class OI {
   protected CANSparkMax driveomni;
   protected DoubleSolenoid hatchDoubleSolenoid;
   protected Compressor compressor;
+  protected boolean isAutomated = false;
 
   public GenericHID getDriverGamepad() {
     return driver_gamepad;   
@@ -67,7 +68,11 @@ public class OI {
   }
 
   public boolean isAutomated(){
-    return true;
+    return isAutomated;
+  }
+
+  public void setAutomated(boolean isAutomated){
+    this.isAutomated = isAutomated;
   }
 
   //I am editing the code in some way
