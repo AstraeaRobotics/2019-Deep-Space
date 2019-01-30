@@ -21,9 +21,9 @@ public class I2CDataSubsystem extends Subsystem {
   private Robot robot;
   private OI oi;
   private Robot.Mode system;
-  private I2C colorSensor1;
-  private I2C colorSensor2;
-  private I2C colorSensor3;
+  private I2C colorSensorLeft;
+  private I2C colorSensorCenter;
+  private I2C colorSensorRight;
 
   public I2CDataSubsystem(OI oi, Robot robot, Robot.Mode system) {
     this.oi = oi;
@@ -35,14 +35,25 @@ public class I2CDataSubsystem extends Subsystem {
   public void initDefaultCommand() {}
 
     public double getColorMovement() {
+        private ByteBuffer buffyLeft = ByteBuffer.allocate(8);
+        private ByteBuffer buffyCenter = ByteBuffer.allocate(8);
+        private ByteBuffer buffyRight = ByteBuffer.allocate(8);
+
         if (system == Robot.Mode.HATCH) {
-            colorSensor1 = new I2C(I2C.Port.kOnboard, RobotMap.colorSensor1PortHatch);
-            colorSensor1.write(0x80 | 0x00, 0b00000011);
-            colorSensor2 = new I2C(I2C.Port.kOnboard, RobotMap.colorSensor2PortHatch);
-            colorSensor2.write(0x80 | 0x00, 0b00000011);
-            colorSensor3 = new I2C(I2C.Port.kOnboard, RobotMap.colorSensor3PortHatch);
-            colorSensor3.write(0x80 | 0x00, 0b00000011);
+            colorSensorLeft = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorLeftPortHatch);
+            colorSensorLeft.write(0x80 | 0x00, 0b00000011);
+            colorSensorCenter = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorCenterPortHatch);
+            colorSensorCenter.write(0x80 | 0x00, 0b00000011);
+            colorSensorRight = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorRightPortHatch);
+            colorSensorRight.write(0x80 | 0x00, 0b00000011);
         }
-        c1 = colorSensor1.read()
+        
+        colorSensorLeft.read(0x80 | 0x20 | 0x16, 8, buffyLeft);
+        ByteBuffer compBuffer = ByteBuffer.wrap(buffyLeft);
+        compBuffer.order(ByteOrder.BIG_ENDIAN);
+        
+        colorSensorLeft.read(0x80 | 0x20 | 0x16, 8, buffyLeft);
+        colorSensorLeft.read(0x80 | 0x20 | 0x16, 8, buffyLeft);
+
     }
 }
