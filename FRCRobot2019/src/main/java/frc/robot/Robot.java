@@ -24,7 +24,7 @@ import frc.robot.subsystems.*;
  */
 
  
-enum mode {
+enum Mode {
   RAMP, HATCH, CANNON, AUTO_ALIGN;
 }
 

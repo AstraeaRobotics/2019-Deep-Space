@@ -9,7 +9,7 @@ public class Alignment {
     Ultrasonic middleSensor = new Ultrasonic(RobotMap.alignmentMSensorIN, RobotMap.alignmentMSensorOUT);
     Ultrasonic rightSensor = new Ultrasonic(RobotMap.alignmentRSensorIN, RobotMap.alignmentRSensorOUT);
 
-    protected double alignmentSpeedScale = 1;
+    protected double alignmentSpeedScale = .5;
     protected double maxRangeDeviation = 3;
     protected boolean isFinished = false;
 
