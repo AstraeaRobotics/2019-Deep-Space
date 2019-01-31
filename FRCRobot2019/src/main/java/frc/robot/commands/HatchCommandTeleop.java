@@ -13,14 +13,16 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.Counter;
 import frc.robot.*;
 
 public class HatchCommandTeleop extends Command {
   private Robot robot;
   private OI oi;
-  private TalonSRX motor; // COULD CHANGE TO A SPARKMAX
+  private TalonSRX motor;
   private DoubleSolenoid pneumatic;
   private Compressor c;
+  private Counter pidEncoder;
 
   public HatchCommandTeleop(OI oi, Robot robot) {
     // Use requires() here to declare subsystem dependencies
@@ -31,12 +33,18 @@ public class HatchCommandTeleop extends Command {
     this.motor = new TalonSRX(RobotMap.hatchMotor);
     this.pneumatic = oi.getHatchDoubleSolenoid();
     this.c = oi.getCompressor();
+    this.pidEncoder = /*INSTANTIATION HERE*/;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
+
+  }
+
+  @Override
+  protected void initialize() {
+    pidEncoder.reset();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -54,5 +62,11 @@ public class HatchCommandTeleop extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+  }
+
+  protected void PID() {
+    double value = pidEncoder.getPeriod();
+    double angleRAD = (value/9.739499999999999E-4)*2*(Math.PI);
+    double target = (angleRAD*1024)/(2*Math.PI);
   }
 }

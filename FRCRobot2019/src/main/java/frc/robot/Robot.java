@@ -29,12 +29,13 @@ enum mode {
 }
 
 public class Robot extends TimedRobot {
-  public static mode system = mode.HATCH;
+  public static Mode system = Mode.HATCH;
   public static OI m_oi;
   public static DriveSubsystem driveSubsystem;
   public static HatchSubsystem hatchSubsystem;
   public static CannonSubsystem cannonSubsystem;
   public static RampSubsystem rampSubsystem;
+  public static I2CDataSubsystem i2cSubsystem;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -86,16 +87,19 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    i2cSubsystem = new I2CDataSubsystem(m_oi, this);
+
     driveSubsystem = new DriveSubsystem(m_oi, this);
     driveSubsystem.initDefaultCommand();
 
-    if (system == mode.HATCH && ActivatedSystems.hatchSub) {
+    if (system == Mode.HATCH && ActivatedSystems.hatchSub) {
       hatchSubsystem = new HatchSubsystem(m_oi, this);
       hatchSubsystem.initDefaultCommand();
-    } else if (system == mode.CANNON && ActivatedSystems.cannonSub) {
+    } else if (system == Mode.CANNON && ActivatedSystems.cannonSub) {
       cannonSubsystem = new CannonSubsystem(m_oi, this);
       cannonSubsystem.initDefaultCommand();
-    } else if (system == mode.RAMP && ActivatedSystems.rampSub) {
+    } else if (system == Mode.RAMP && ActivatedSystems.rampSub) {
       rampSubsystem = new RampSubsystem(m_oi, this);
       rampSubsystem.initDefaultCommand();
     }
