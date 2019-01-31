@@ -7,8 +7,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import frc.robot.*;
 import frc.robot.commands.*;
 
@@ -16,23 +19,29 @@ import frc.robot.commands.*;
  * Add your docs here.
  */
 public class I2CDataSubsystem extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  private Robot robot;
-  private OI oi;
-  private robot.Mode system;
-  private I2C colorSensorLeft;
-  private I2C colorSensorCenter;
-  private I2C colorSensorRight;
+    // Put methods for controlling this subsystem
+    // here. Call these from Commands.
+    private Robot robot;
+    private OI oi;
+    private Robot.Mode system;
+    private I2C colorSensorLeft;
+    private I2C colorSensorCenter;
+    private I2C colorSensorRight;
 
-  public I2CDataSubsystem(OI oi, Robot robot, robot.Mode system) {
-    this.oi = oi;
-    this.robot = robot;
-    this.system = system;
-  }
+    protected final Byte COMMAND_REGISTER_BIT = 0x80;
+    protected final Byte MULTI_BYTE_BIT = 0x20;
+    protected final static int RDATA_REGISTER  = 0x16;
+    protected final static int GDATA_REGISTER  = 0x18;
+    protected final static int BDATA_REGISTER  = 0x1A;
 
-  @Override
-  public void initDefaultCommand() {}
+    public I2CDataSubsystem(OI oi, Robot robot, Robot.Mode system) {
+        this.oi = oi;
+        this.robot = robot;
+        this.system = system;
+    }
+
+    @Override
+    public void initDefaultCommand() {}
 
     public double getColorMovement() {
         private ByteBuffer buffyLeft = ByteBuffer.allocate(8);
@@ -41,19 +50,41 @@ public class I2CDataSubsystem extends Subsystem {
 
         if (system == robot.Mode.HATCH) {
             colorSensorLeft = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorLeftPortHatch);
-            colorSensorLeft.write(0x80 | 0x00, 0b00000011);
+            colorSensorLeft.write(COMMAND | 0x00, 0b00000011);
             colorSensorCenter = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorCenterPortHatch);
-            colorSensorCenter.write(0x80 | 0x00, 0b00000011);
+            colorSensorCenter.write(COMMAND | 0x00, 0b00000011);
             colorSensorRight = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorRightPortHatch);
-            colorSensorRight.write(0x80 | 0x00, 0b00000011);
+            colorSensorRight.write(COMMAND | 0x00, 0b00000011);
+        } else if (system == Robot.Mode.CANNON) {
+            colorSensorLeft = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorLeftPortCannon);
+            colorSensorLeft.write(COMMAND | 0x00, 0b00000011);
+            colorSensorCenter = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorCenterPortCannon);
+            colorSensorCenter.write(COMMAND | 0x00, 0b00000011);
+            colorSensorRight = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorRightPortCannon);
+            colorSensorRight.write(COMMAND | 0x00, 0b00000011);
         }
         
-        colorSensorLeft.read(0x80 | 0x20 | 0x16, 8, buffyLeft);
-        ByteBuffer compBuffer = ByteBuffer.wrap(buffyLeft);
-        compBuffer.order(ByteOrder.BIG_ENDIAN);
-        
-        colorSensorLeft.read(0x80 | 0x20 | 0x16, 8, buffyLeft);
-        colorSensorLeft.read(0x80 | 0x20 | 0x16, 8, buffyLeft);
+        colorSensorLeft.read(COMMAND | MULTI_BYTE_BIT | RDATA_REGISTER, 6, buffyLeft);
+        private short red = buffyLeft.getShort(0);
+        private short green = buffyLeft.getShort(2);
+        private short blue = buffyLeft.getShort(4);
+        private short whiteLeft = (short)(red + green + blue)/3;
+
+        colorSensorCenter.read(COMMAND | MULTI_BYTE_BIT | RDATA_REGISTER, 6, buffyCenter);
+        private short red = buffyLeft.getShort(0);
+        private short green = buffyLeft.getShort(2);
+        private short blue = buffyLeft.getShort(4);
+        private short whiteCenter = (short)(red + green + blue)/3;
+
+        colorSensorRight.read(COMMAND | MULTI_BYTE_BIT | RDATA_REGISTER, 6, buffyRight);
+        private short red = buffyLeft.getShort(0);
+        private short green = buffyLeft.getShort(2);
+        private short blue = buffyLeft.getShort(4);
+        private short whiteRight = (short)(red + green + blue)/3;
+
+        if (whiteLeft > whiteCenter) {
+            
+        }
 
     }
 }

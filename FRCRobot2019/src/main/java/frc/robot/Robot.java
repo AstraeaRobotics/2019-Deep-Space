@@ -88,10 +88,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    i2cSubsystem = new I2CDataSubsystem(m_oi, this);
-
     driveSubsystem = new DriveSubsystem(m_oi, this);
     driveSubsystem.initDefaultCommand();
+
+    i2cSubsystem = new I2CDataSubsystem(m_oi, this);
 
     if (system == Mode.HATCH && ActivatedSystems.hatchSub) {
       hatchSubsystem = new HatchSubsystem(m_oi, this);
