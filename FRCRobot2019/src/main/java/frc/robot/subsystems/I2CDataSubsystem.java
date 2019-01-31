@@ -19,7 +19,6 @@ import frc.robot.commands.*;
  * Add your docs here.
  */
 public class I2CDataSubsystem extends Subsystem {
-<<<<<<< HEAD
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     private Robot robot;
@@ -43,25 +42,6 @@ public class I2CDataSubsystem extends Subsystem {
 
     @Override
     public void initDefaultCommand() {}
-=======
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  private Robot robot;
-  private OI oi;
-  private robot.Mode system;
-  private I2C colorSensorLeft;
-  private I2C colorSensorCenter;
-  private I2C colorSensorRight;
-
-  public I2CDataSubsystem(OI oi, Robot robot, robot.Mode system) {
-    this.oi = oi;
-    this.robot = robot;
-    this.system = system;
-  }
-
-  @Override
-  public void initDefaultCommand() {}
->>>>>>> d157aacb9d5c8a1e14c0f3ff7400241756fb81f8
 
     public double getColorMovement() {
         private ByteBuffer buffyLeft = ByteBuffer.allocate(8);
