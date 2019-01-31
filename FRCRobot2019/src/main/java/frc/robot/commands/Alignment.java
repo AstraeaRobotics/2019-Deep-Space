@@ -9,6 +9,7 @@ public class Alignment {
     Ultrasonic middleSensor = new Ultrasonic(RobotMap.alignmentMSensorIN, RobotMap.alignmentMSensorOUT);
     Ultrasonic rightSensor = new Ultrasonic(RobotMap.alignmentRSensorIN, RobotMap.alignmentRSensorOUT);
 
+    protected double alignmentSpeedScale = 1;
     protected double maxRangeDeviation = 3;
     protected boolean isFinished = false;
 
@@ -26,15 +27,16 @@ public class Alignment {
     }
 
     protected void initialize(){
-        robot.system = robot.mode.AUTO_ALIGN;
+        robot.system = robot.Mode.AUTO_ALIGN;
     }
 
     protected void execute() {
         double rangeDifference = Math.abs(leftSensor.getRangeInches() - rightSensor.getRangeInches());
+        double alignmentTurnSpeed = rangeDifference * alignmentSpeedScale;
         if (leftSensor.getRangeInches()>rightSensor.getRangeInches()){
-            robot.getRobotDrive().arcadeDrive(0, 1 * Constants.turnSpeed);
+            robot.getRobotDrive().arcadeDrive(0, 1 * Constants.turnSpeed * alignmentTurnSpeed);
         } else if (leftSensor.getRangeInches()>rightSensor.getRangeInches()){
-            robot.getRobotDrive().arcadeDrive(0, -1 * Constants.turnSpeed);
+            robot.getRobotDrive().arcadeDrive(0, -1 * Constants.turnSpeed * alignmentTurnSpeed);
         }
         if (checkSensors()){
             isFinished = true;
@@ -42,7 +44,7 @@ public class Alignment {
     }
 
     protected void end() {
-        robot.system = robot.mode.HATCH;
+        robot.system = robot.Mode.HATCH;
     }
 
     protected void interrupted(){

@@ -20,12 +20,12 @@ public class I2CDataSubsystem extends Subsystem {
   // here. Call these from Commands.
   private Robot robot;
   private OI oi;
-  private Robot.Mode system;
+  private robot.Mode system;
   private I2C colorSensorLeft;
   private I2C colorSensorCenter;
   private I2C colorSensorRight;
 
-  public I2CDataSubsystem(OI oi, Robot robot, Robot.Mode system) {
+  public I2CDataSubsystem(OI oi, Robot robot, robot.Mode system) {
     this.oi = oi;
     this.robot = robot;
     this.system = system;
@@ -39,7 +39,7 @@ public class I2CDataSubsystem extends Subsystem {
         private ByteBuffer buffyCenter = ByteBuffer.allocate(8);
         private ByteBuffer buffyRight = ByteBuffer.allocate(8);
 
-        if (system == Robot.Mode.HATCH) {
+        if (system == robot.Mode.HATCH) {
             colorSensorLeft = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorLeftPortHatch);
             colorSensorLeft.write(0x80 | 0x00, 0b00000011);
             colorSensorCenter = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorCenterPortHatch);
