@@ -24,8 +24,8 @@ import frc.robot.subsystems.*;
  */
 
  
-enum Mode {
-  RAMP, HATCH, CANNON;
+enum mode {
+  RAMP, HATCH, CANNON, AUTO_ALIGN;
 }
 
 public class Robot extends TimedRobot {

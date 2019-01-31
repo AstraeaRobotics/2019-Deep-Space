@@ -27,9 +27,8 @@ public class RampSubsystem extends Subsystem {
   private TalonSRX BAG_Motor;
   private Encoder AMT103;
   private TalonSRX _775Pro;
-  private Solenoid Pneumatics;
-  private PIDController PIDController;
-  
+  private Solenoid Pneumatics; // or double solenoid?
+
   public RampSubsystem(OI oi, Robot robot) {
     this.robot = robot;
     this.oi = oi;
