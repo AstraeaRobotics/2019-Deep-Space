@@ -11,6 +11,9 @@ part to which it’s adhered (but please note, as stated earlier in this manual 
 ensure that ARENAS are consistent from event to event. However, ARENAS are assembled in different
 venues by different event staff and some small variations occur”) and such that there’s an 8-in. (~20 cm)
 gap at their closest points." (page 30)
+
+http://answers.opencv.org/question/86865/vision-tracking-using-retroreflective-tape/
+http://answers.opencv.org/question/28489/how-to-compare-two-contours-translated-from-one-another/
 """
 
 import cv2
@@ -62,6 +65,7 @@ while not keyboard.is_pressed('q'):
 
     #Display the pictures
     cv2.imshow('Tape-Detection: Final', frame) #Display the original image with the lines on top
+    cv2.imshow("temp",whiteFilter)
     #cv2.imshow('Tape-Detection: No Image Recog', whiteFilter) #Display the filtered image that computer uses for contours and lines
 
     #waitKey() is needed to update the frames of the imshow()
