@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.*;
 
 public class HatchCommandTeleop extends Command {
@@ -22,7 +23,8 @@ public class HatchCommandTeleop extends Command {
   private TalonSRX motor;
   private DoubleSolenoid pneumatic;
   private Compressor c;
-  private Counter pidEncoder;
+  private Encoder pidEncoder;
+  Counter count;
 
   public HatchCommandTeleop(OI oi, Robot robot) {
     // Use requires() here to declare subsystem dependencies
@@ -33,7 +35,8 @@ public class HatchCommandTeleop extends Command {
     this.motor = new TalonSRX(RobotMap.hatchMotor);
     this.pneumatic = oi.getHatchDoubleSolenoid();
     this.c = oi.getCompressor();
-    this.pidEncoder = /*INSTANTIATION HERE*/;
+    this.pidEncoder =  /*INSTANTIATION HERE*/;
+    this.count = new Counter(pidEncoder);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -46,6 +49,7 @@ public class HatchCommandTeleop extends Command {
   @Override
   protected void initialize() {
     pidEncoder.reset();
+    count.setSemiPeriodMode(true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -66,7 +70,7 @@ public class HatchCommandTeleop extends Command {
   }
 
   protected void PID() {
-    double value = pidEncoder.getPeriod();
+    double value =count.getPeriod();
     double angleRAD = (value/9.739499999999999E-4)*2*(Math.PI);
     double target = (angleRAD*1024)/(2*Math.PI);
     pidEncoder.set(Constants.hatchConstant * (Constants.currentVal - target));
