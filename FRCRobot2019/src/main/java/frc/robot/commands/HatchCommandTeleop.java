@@ -39,7 +39,8 @@ public class HatchCommandTeleop extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    PID();
+    
   }
 
   @Override
@@ -68,5 +69,6 @@ public class HatchCommandTeleop extends Command {
     double value = pidEncoder.getPeriod();
     double angleRAD = (value/9.739499999999999E-4)*2*(Math.PI);
     double target = (angleRAD*1024)/(2*Math.PI);
+    pidEncoder.set(Constants.hatchConstant * (Constants.currentVal - target));
   }
 }
