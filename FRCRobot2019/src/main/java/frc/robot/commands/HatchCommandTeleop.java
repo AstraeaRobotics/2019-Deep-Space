@@ -40,7 +40,7 @@ public class HatchCommandTeleop extends Command {
   @Override
   protected void execute() {
     PID();
-    
+    pneumatic.set(pidEncoder.get());
   }
 
   @Override
