@@ -87,4 +87,13 @@ public class I2CDataSubsystem extends Subsystem {
         }
 
     }
+
+    public I2C tcaselect(uint8_t i) {
+        if (i < 8) {
+            I2C i2c = new I2C(I2C.Port.kOnboard, 0x70);
+            i2c.write(1 << i);
+        } else {
+            return null;
+        }
+    }
 }
