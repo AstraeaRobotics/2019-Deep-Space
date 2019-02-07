@@ -7,19 +7,26 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.*;
 import frc.robot.*;
 import frc.robot.subsystems.*;
 
 public class RampCommandTeleop extends Command {
+
+  TalonSRX BAG_Motor = new TalonSRX(RobotMap.rampBAGMotor); // COULD CHANGE TO SPARKMAX
+  Encoder AMT103 = new Encoder(RobotMap.rampDigitalInput1, RobotMap.rampDigitalInput2,false, Encoder.EncodingType.k4X);
+  TalonSRX _775Pro = new TalonSRX(RobotMap.ramp775Pro);
+  DoubleSolenoid Pneumatics = new DoubleSolenoid(2,3); // or double solenoid?
+
   public RampCommandTeleop(OI oi, Subsystem sub, Robot robot) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
 
-    BAG_Motor = new TalonSRX(RobotMap.rampBAGMotor); // COULD CHANGE TO SPARKMAX
-    AMT103 = new Encoder(RobotMap.rampDigitalInput1, RobotMap.rampDigitalInput2, Encoder.EncodingTyping.k4X);
-    _775Pro = new TalonSRX(RobotMap.ramp775Pro);
-    Pneumatics = new Solenoid(RobotMap.rampPneumatics); // or double solenoid?
 
     // AMT103.setMaxPeriod(.1);
     // AMT103.setMinRate(10);
@@ -57,12 +64,10 @@ public class RampCommandTeleop extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() { // No exact numbers currently.
-      BAG_Motor.set(1); 
-      Thread.sleep(0); // Delay between kicking foot and dropping ramp
+      //BAG_Motor.set(ControlMode.PercentOutput, 1); 
       // Knock down ramp...
-      Pneumatics.set(); // idk what we're using yet so no code.
-      Thread.sleep(0);
-      _775Pro.set(1);
+      Pneumatics.set(DoubleSolenoid.Value.kOff); // idk what we're using yet so no code.
+      //_775Pro.set(1);
 
   }
 
@@ -73,12 +78,12 @@ public class RampCommandTeleop extends Command {
   }
 
   protected void PIDLower () {
-    private boolean keepGoing = true;
+    boolean keepGoing = true;
     int pulseWidth = _775Pro.getSensorCollection().getPulseWidthPosition();
     int end = pulseWidth + RobotMap.ticksInAngle;
     while (keepGoing) {
       if (pulseWidth - end >= 3) {
-        _775Pro.set(RobotMap.rampPIDConstant * (pulseWidth - end));
+        _775Pro.set(ControlMode.PercentOutput, RobotMap.rampPIDConstant * (pulseWidth - end));
       } else {
         keepGoing = false;
       }
@@ -86,12 +91,12 @@ public class RampCommandTeleop extends Command {
   }
 
   protected void PIDRaise () {
-    private boolean keepGoing = true;
+    boolean keepGoing = true;
     int pulseWidth = _775Pro.getSensorCollection().getPulseWidthPosition();
     int end = pulseWidth + RobotMap.ticksInAngle;
     while (keepGoing) {
       if (pulseWidth - end >= 3) {
-        _775Pro.set(-1 * RobotMap.rampPIDConstant * (pulseWidth - end));
+        _775Pro.set(ControlMode.PercentOutput, -1 * RobotMap.rampPIDConstant * (pulseWidth - end));
       } else {
         keepGoing = false;
       }

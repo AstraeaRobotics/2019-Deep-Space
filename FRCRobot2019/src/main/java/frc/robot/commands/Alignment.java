@@ -1,10 +1,17 @@
-package main.java.frc.robot.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.Constants;
+import frc.robot.OI;
+import frc.robot.Robot;
 
-public class Alignment {
+public class Alignment extends Command{
+    private Robot robot;
+    private OI oi;
+
     Ultrasonic leftSensor = new Ultrasonic(RobotMap.alignmentLSensorIN,RobotMap.alignmentLSensorOUT);
     Ultrasonic middleSensor = new Ultrasonic(RobotMap.alignmentMSensorIN, RobotMap.alignmentMSensorOUT);
     Ultrasonic rightSensor = new Ultrasonic(RobotMap.alignmentRSensorIN, RobotMap.alignmentRSensorOUT);
@@ -12,6 +19,12 @@ public class Alignment {
     protected double alignmentSpeedScale = .5;
     protected double maxRangeDeviation = 3;
     protected boolean isFinished = false;
+
+    public Alignment(OI oi, Subsystem sub, Robot robot) {
+        requires(sub);
+        this.oi = oi;
+        this.robot=robot;
+    }
 
     protected boolean checkSensors(){
         double sensorAverage = (leftSensor.getRangeInches()+middleSensor.getRangeInches()+rightSensor.getRangeInches())/3;
@@ -27,16 +40,15 @@ public class Alignment {
     }
 
     protected void initialize(){
-        robot.system = robot.Mode.AUTO_ALIGN;
     }
 
     protected void execute() {
         double rangeDifference = Math.abs(leftSensor.getRangeInches() - rightSensor.getRangeInches());
         double alignmentTurnSpeed = rangeDifference * alignmentSpeedScale;
         if (leftSensor.getRangeInches()>rightSensor.getRangeInches()){
-            robot.getRobotDrive().arcadeDrive(0, 1 * Constants.turnSpeed * alignmentTurnSpeed);
+            oi.getRobotDrive().arcadeDrive(0, 1 * Constants.turnSpeed * alignmentTurnSpeed);
         } else if (leftSensor.getRangeInches()>rightSensor.getRangeInches()){
-            robot.getRobotDrive().arcadeDrive(0, -1 * Constants.turnSpeed * alignmentTurnSpeed);
+            oi.getRobotDrive().arcadeDrive(0, -1 * Constants.turnSpeed * alignmentTurnSpeed);
         }
         if (checkSensors()){
             isFinished = true;
@@ -44,7 +56,6 @@ public class Alignment {
     }
 
     protected void end() {
-        robot.system = robot.Mode.HATCH;
     }
 
     protected void interrupted(){

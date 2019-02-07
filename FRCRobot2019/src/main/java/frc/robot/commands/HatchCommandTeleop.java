@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -35,15 +36,15 @@ public class HatchCommandTeleop extends Command {
     this.motor = new TalonSRX(RobotMap.hatchMotor);
     this.pneumatic = oi.getHatchDoubleSolenoid();
     this.c = oi.getCompressor();
-    this.pidEncoder =  /*INSTANTIATION HERE*/;
-    this.count = new Counter(pidEncoder);
+    this.pidEncoder =  oi.getHatchPIDEncoder();
+    //this.count = new Counter(pidEncoder);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     PID();
-    pneumatic.set(pidEncoder.get());
+    pneumatic.set(DoubleSolenoid.Value.kForward);
   }
 
   @Override
@@ -72,7 +73,7 @@ public class HatchCommandTeleop extends Command {
   protected void PID() {
     double value =count.getPeriod();
     double angleRAD = (value/9.739499999999999E-4)*2*(Math.PI);
-    double target = (angleRAD*1024)/(2*Math.PI);
-    pidEncoder.set(Constants.hatchConstant * (Constants.currentVal - target));
+    double currentVal = (angleRAD*1024)/(2*Math.PI);
+    motor.set(ControlMode.PercentOutput, Constants.hatchConstant * (Constants.hatchTargetVal - currentVal));
   }
 }

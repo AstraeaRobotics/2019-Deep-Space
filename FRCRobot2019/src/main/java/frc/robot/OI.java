@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
@@ -40,6 +41,7 @@ public class OI {
   protected DoubleSolenoid hatchDoubleSolenoid;
   protected Compressor compressor;
   protected boolean isAutomated = false;
+  protected Encoder hatchEncoder;
 
   public GenericHID getDriverGamepad() {
     return driver_gamepad;   
@@ -73,6 +75,11 @@ public class OI {
 
   public void setAutomated(boolean isAutomated){
     this.isAutomated = isAutomated;
+  }
+
+  public Encoder getHatchPIDEncoder() {
+    hatchEncoder = new Encoder(0,1, false, Encoder.EncodingType.k4X);
+	  return hatchEncoder;
   }
 
   //I am editing the code in some way

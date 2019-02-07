@@ -23,7 +23,6 @@ public class I2CDataSubsystem extends Subsystem {
     // here. Call these from Commands.
     private Robot robot;
     private OI oi;
-    private Robot.Mode system;
     private I2C colorSensorLeft;
     private I2C colorSensorCenter;
     private I2C colorSensorRight;
@@ -34,10 +33,9 @@ public class I2CDataSubsystem extends Subsystem {
     protected final static int GDATA_REGISTER  = 0x18;
     protected final static int BDATA_REGISTER  = 0x1A;
 
-    public I2CDataSubsystem(OI oi, Robot robot, Robot.Mode system) {
+    public I2CDataSubsystem(OI oi, Robot robot) {
         this.oi = oi;
         this.robot = robot;
-        this.system = system;
     }
 
     @Override
@@ -65,10 +63,10 @@ public class I2CDataSubsystem extends Subsystem {
         }
         
         colorSensorLeft.read(COMMAND | MULTI_BYTE_BIT | RDATA_REGISTER, 6, buffyLeft);
-        private short red = buffyLeft.getShort(0);
-        private short green = buffyLeft.getShort(2);
-        private short blue = buffyLeft.getShort(4);
-        private short whiteLeft = (short)(red + green + blue)/3;
+        short red = buffyLeft.getShort(0);
+        short green = buffyLeft.getShort(2);
+        short blue = buffyLeft.getShort(4);
+        short whiteLeft = (short)(red + green + blue)/3;
 
         colorSensorCenter.read(COMMAND | MULTI_BYTE_BIT | RDATA_REGISTER, 6, buffyCenter);
         private short red = buffyLeft.getShort(0);

@@ -23,16 +23,14 @@ public class DriveCommandTeleop extends Command {
         omniMotor = oi.getOmniMotor();
     }
 
-    protected int getForwardDrive() {
+    protected double getForwardDrive() {
         return oi.getDriverGamepad().getRawAxis(4) - oi.getDriverGamepad().getRawAxis(3);
     }
 
     @Override
     protected void execute() {
-        if (robot.system == robot.Mode.HATCH || robot.system == robot.Mode.CANNON) {
             robotDrive.arcadeDrive(getForwardDrive()*Constants.turnSpeed, oi.getDriverGamepad().getRawAxis(2)*Constants.turnSpeed);
             omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)*Constants.driveSpeed); 
-        }
     }
 
     @Override
