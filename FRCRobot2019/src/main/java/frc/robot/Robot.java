@@ -104,14 +104,6 @@ public class Robot extends TimedRobot {
       rampSubsystem = new RampSubsystem(m_oi, this);
       rampSubsystem.initDefaultCommand();
     }
-
-
-    // NetworkTables Code:
-    NetworkTable.setClientMode();
-    InetAddress address = InetAddress.getByName("HOSTNAME OF PI");
-    NetworkTable.setIPAddress(address.getHostAddress());
-
-    NetworkTable SmartDashboard = NetworkTable.getTable("SmartDashboard");
   }
 
   /**
@@ -120,6 +112,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    
+    
   }
 
   /**
@@ -127,5 +121,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+ 
+  public double getAngleFromPi() {
+    NetworkTable.setClientMode();
+    InetAddress address = InetAddress.getByName("rasppifront");
+    NetworkTable.setIPAddress(address.getHostAddress());
+    NetworkTable sd = NetworkTable.getTable("SmartDashboard");
+	   return table.getNumber("angle", 0);
   }
 }
