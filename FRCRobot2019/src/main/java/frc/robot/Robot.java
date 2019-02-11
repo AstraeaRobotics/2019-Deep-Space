@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.subsystems.*;
 
 
@@ -103,6 +104,14 @@ public class Robot extends TimedRobot {
       rampSubsystem = new RampSubsystem(m_oi, this);
       rampSubsystem.initDefaultCommand();
     }
+
+
+    // NetworkTables Code:
+    NetworkTable.setClientMode();
+    InetAddress address = InetAddress.getByName("HOSTNAME OF PI");
+    NetworkTable.setIPAddress(address.getHostAddress());
+
+    NetworkTable SmartDashboard = NetworkTable.getTable("SmartDashboard");
   }
 
   /**
