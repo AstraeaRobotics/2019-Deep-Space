@@ -123,11 +123,4 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
  
-  public double getAngleFromPi() {
-    NetworkTable.setClientMode();
-    InetAddress address = InetAddress.getByName("rasppifront");
-    NetworkTable.setIPAddress(address.getHostAddress());
-    NetworkTable sd = NetworkTable.getTable("SmartDashboard");
-	   return table.getNumber("angle", 0);
-  }
 }
