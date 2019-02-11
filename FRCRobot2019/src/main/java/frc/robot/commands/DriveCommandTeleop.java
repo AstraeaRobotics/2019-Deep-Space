@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Robot;
@@ -38,4 +39,11 @@ public class DriveCommandTeleop extends Command {
         return false;
     }
 
+    public double getAngleFromPi() {
+        NetworkTable.setClientMode();
+        InetAddress address = InetAddress.getByName("rasppifront");
+        NetworkTable.setIPAddress(address.getHostAddress());
+        NetworkTable sd = NetworkTable.getTable("SmartDashboard");
+	    return table.getNumber("angle", 0);
+    }
 }
