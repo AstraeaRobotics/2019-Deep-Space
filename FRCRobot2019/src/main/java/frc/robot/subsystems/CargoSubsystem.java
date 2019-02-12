@@ -19,9 +19,11 @@ public class CargoSubsystem {
         this.robot = robot;
     }
 
+    /*
     @Override
     public void initDefaultCommand() {
         Command command = new CargoCommand(oi, robot);
         command.start();
     }
+    */
 }
