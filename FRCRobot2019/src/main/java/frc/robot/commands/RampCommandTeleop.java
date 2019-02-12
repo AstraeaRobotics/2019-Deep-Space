@@ -11,17 +11,20 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
+//import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.*;
 import frc.robot.*;
 import frc.robot.subsystems.*;
 
 public class RampCommandTeleop extends Command {
 
-  TalonSRX BAG_Motor = new TalonSRX(RobotMap.rampBAGMotor); // COULD CHANGE TO SPARKMAX
+  /*TalonSRX BAG_Motor = new TalonSRX(RobotMap.rampBAGMotor); // COULD CHANGE TO SPARKMAX
   Encoder AMT103 = new Encoder(RobotMap.rampDigitalInput1, RobotMap.rampDigitalInput2,false, Encoder.EncodingType.k4X);
-  TalonSRX _775Pro = new TalonSRX(RobotMap.ramp775Pro);
-  DoubleSolenoid Pneumatics = new DoubleSolenoid(2,3); // or double solenoid?
+  TalonSRX _775Pro = new TalonSRX(RobotMap.ramp775Pro);*/
+  //DoubleSolenoid Pneumatics = new DoubleSolenoid(2,3); // or double solenoid?
+  Solenoid solenoid1 = new Solenoid(RobotMap.rampSolenoid1ch);
+  Solenoid solenoid2 = new Solenoid(RobotMap.rampSolenoid2ch);
 
   public RampCommandTeleop(OI oi, Subsystem sub, Robot robot) {
     // Use requires() here to declare subsystem dependencies
@@ -40,6 +43,8 @@ public class RampCommandTeleop extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    solenoid1.set(true); // Kick down ramp
+    solenoid2.set(true); // Open flaps
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,20 +58,12 @@ public class RampCommandTeleop extends Command {
     return true; // Jump to end method
   }
 
-  /*
-    order:
-      1. bag motor foot opens
-      2. ???? knocks down ramp
-      3. cylinder on drive base pushes ramp up + 2 flaps open up simultaneously (solenoid)
-      4. winch pulls ramp up (775 pro)
-  */
 
-  // Called once after isFinished returns true
   @Override
-  protected void end() { // No exact numbers currently.
+  protected void end() { // No exact numbers currently. - deprecated and replaced bc new ramp design
       //BAG_Motor.set(ControlMode.PercentOutput, 1); 
       // Knock down ramp...
-      Pneumatics.set(DoubleSolenoid.Value.kOff); // idk what we're using yet so no code.
+      //Pneumatics.set(DoubleSolenoid.Value.kOff); // idk what we're using yet so no code.
       //_775Pro.set(1);
 
   }
@@ -77,7 +74,7 @@ public class RampCommandTeleop extends Command {
   protected void interrupted() {
   }
 
-  protected void PIDLower () {
+  /*protected void PIDLower () {
     boolean keepGoing = true;
     int pulseWidth = _775Pro.getSensorCollection().getPulseWidthPosition();
     int end = pulseWidth + RobotMap.ticksInAngle;
@@ -101,5 +98,5 @@ public class RampCommandTeleop extends Command {
         keepGoing = false;
       }
     }
-  }
+  }*/
 }

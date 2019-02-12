@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import frc.robot.subsystems.*;
 
 
@@ -111,6 +112,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    
+    
   }
 
   /**
@@ -119,4 +122,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+ 
 }

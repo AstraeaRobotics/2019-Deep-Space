@@ -40,11 +40,12 @@ public class RobotMap {
   public static int cargoVictor2p = 0;
 
   // All the ramp things :|
-  public static int rampBAGMotor = 0;
-  public static int ramp775Pro = 0;
-  public static int rampDigitalInput1 = 0;
-  public static int rampDigitalInput2 = 0;
-  public static int rampPneumatics = 0;
+  //public static int rampBAGMotor = 0;
+  //public static int ramp775Pro = 0;
+  //public static int rampDigitalInput1 = 0;
+  //public static int rampDigitalInput2 = 0;
+  public static int rampSolenoid1ch = 0;
+  public static int rampSolenoid2ch = 0;
 
   public static int alignmentLSensorIN = 0;
   public static int alignmentLSensorOUT = 0;
