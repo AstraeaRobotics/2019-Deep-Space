@@ -2,18 +2,17 @@ import cv2
 import numpy as np
 import math
 import sys
-import genFrame
+import keyboard
+from networktables import NetworkTables
 
 def detectTape(frame):
-    whiteRange = np.array([[0, 0, 230], [255, 25, 255]])
+    whiteRange = np.array([[0, 0, 200], [255, 50, 255]])
     tapeArea = 300
     tape = []
 
     gaussianBlur = cv2.GaussianBlur(frame.copy(), (5,5), 0)
     hsvFrame = cv2.cvtColor(gaussianBlur, cv2.COLOR_BGR2HSV)
     whiteFilter = cv2.inRange(hsvFrame, whiteRange[0], whiteRange[1])
-
-    cv2.imshow("filter", whiteFilter)
 
     contours, ret = cv2.findContours(whiteFilter, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     for contour in contours:
@@ -40,7 +39,9 @@ def filterAngleSize(contours):
 def pairTape(tapeArray):
     distRatio = 0.73125
     distRange = 1
+    yRange = 40
     pairs = []
+
     for tape1 in tapeArray:
         for tape2 in tapeArray:
             [dx1, dy1], ret, ret = cv2.minAreaRect(tape1)
@@ -53,14 +54,13 @@ def pairTape(tapeArray):
             disty1 = math.sqrt(pts1[0][1]*pts1[0][1] + pts1[2][1]*pts1[2][1])
             disty2 = math.sqrt(pts2[0][1]*pts2[0][1] + pts2[2][1]*pts2[2][1])
 
-            if (distX > 0 and disty1/distX) > (distRatio-distRange) and (disty1/distX) < (distRatio+distRange) and (disty2/distX) > (distRatio-distRange) and (disty2/distX) < (distRatio+distRange):
-                pairs.append([tape1, tape2])
-                tapeArray.remove(tape1)
-                tapeArray.remove(tape2)
+            if distX > 0:
+                if (disty1/distX) > (distRatio-distRange) and (disty1/distX) < (distRatio+distRange) and (disty2/distX) > (distRatio-distRange) and (disty2/distX) < (distRatio+distRange):
+                    if disty1 > disty2-yRange and disty1 < disty2+yRange:
+                        pairs.append([tape1, tape2])
+                        tapeArray.remove(tape1)
+                        tapeArray.remove(tape2)
     return pairs
-
-def getAngleToGoal(x, w):
-    return (x/w) * 78 #0 is the left edge, 78 is the far right edge
 
 def detectGoal(frame):
     contours = detectTape(frame)
@@ -69,23 +69,25 @@ def detectGoal(frame):
 
     if len(tapePairs) >= 1:
         min_x = sys.maxsize
+        max_x = -sys.maxsize
         for goal in tapePairs:
             for tape in goal:
                 (x,y,w,h) = cv2.boundingRect(tape)
-                framew, frameh = cv2.GetSize(frame)
-                min_x = min(x, min_x)
-                centerX = min_x + w/2
-
-                return(getAngleToGoal(centerX, framew))
-
+                frameh, framew, c = frame.shape
+                min_x, max_x = min(x, min_x), max(x+w, max_x)
+                centerX = min_x + (max_x-min_x)/2
+                if centerX/framew > 0.55: return 1
+                elif centerX/framew < 0.45: return -1
+                else: return 0
 
 cap = cv2.VideoCapture(0)
+NetworkTables.initialize(server='rasppifront')
+sd = NetworkTables.getTable('SmartDashboard')
 
 while not (keyboard.is_pressed('q') and keyboard.is_pressed('ctrl')):
     _, frame = cap.read()
-    print(detectGoal(frame))
-    cv2.imshow("FRAME", frame)
+    sd.putNumber('LeftRightValue', detectGoal(frame))
     cv2.waitKey(1)
 
 cap.release()
-cv2.destroyAllWindows()
+
