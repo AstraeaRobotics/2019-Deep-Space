@@ -2,9 +2,8 @@ package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax;
 
-import java.net.InetAddress;
-
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import java.net.InetAddress;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Robot;
@@ -33,7 +32,9 @@ public class DriveCommandTeleop extends Command {
     @Override
     protected void execute() {
             robotDrive.arcadeDrive(getForwardDrive()*Constants.turnSpeed, oi.getDriverGamepad().getRawAxis(2)*Constants.turnSpeed);
-            omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)*Constants.driveSpeed); 
+            omniMotor.set(oi.getDriverGamepad().getRawAxis(0)*(getForwardDrive()/255)*Constants.driveSpeed);
+
+            
     }
 
     @Override
@@ -43,9 +44,6 @@ public class DriveCommandTeleop extends Command {
 
     public double getAngleFromPi(String ip) {
         NetworkTable table = NetworkTable.getTable("SmartDashboard");
-        NetworkTable.setClientMode();
-        InetAddress address = InetAddress.getByName(ip);
-        NetworkTable.setIPAddress(address.getHostAddress());
 	    return table.getNumber("angle", 0);
     }
 }
