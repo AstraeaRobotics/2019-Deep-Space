@@ -36,8 +36,9 @@ public class RobotMap {
   public static int compressor = 0;
 
   // Shooter and Intake for Cargo
-  public static int cargoVictor1p = 0;
-  public static int cargoVictor2p = 0;
+  public static int cargoMainMotor = 0;
+  public static int cargoIntakeMotor = 0;
+  public static int cargoArmMotor = 0;
 
   // All the ramp things :|
   //public static int rampBAGMotor = 0;
@@ -57,7 +58,7 @@ public class RobotMap {
   //Verrrrrry arbitrary number here that will need to be edited
   public static int rampEncoderTicks = 30;
 
-public static int ticksInAngle;
+  public static int ticksInAngle;
 
-public static int rampPIDConstant;
+  public static int rampPIDConstant;
 }
