@@ -54,8 +54,19 @@ public class DriveCommandTeleop extends Command {
         return false;
     }
 
-    public double getAngleFromPi(String ip) {
-        NetworkTable table = NetworkTable.getTable("SmartDashboard");
-	    return table.getNumber("angle", 0);
+    public void usePi(String ip) {
+        NetworkTable table = NetworkTable.getTable("Vision");
+	    double angle = table.getNumber("angle", 0);
+        if(angle > 0) {
+            while(angle > 0) {
+                omniMotor.set(.1);
+                angle = table.getNumber("angle", 0);
+            }
+        } else if(angle < 0) {
+            while(angle < 0) {
+                omniMotor.set(-.1);
+                angle = table.getNumber("angle", 0);
+            }
+        }
     }
 }
