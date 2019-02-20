@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class OI {
   protected GenericHID driver_gamepad = new Joystick(RobotMap.driveGamepad); //Ports and joystick mapping to be changed later
+  protected GenericHID operator_gamepad = new Joystick(RobotMap.operatorGamepad);
   //Playstation DualShock 4 Mapping
   // Axis 0:    Left Stick X
   // Axis 1:    Left Stick Y
@@ -45,6 +46,10 @@ public class OI {
 
   public GenericHID getDriverGamepad() {
     return driver_gamepad;   
+  }
+
+  public GenericHID getOperatorGamepad(){
+    return operator_gamepad;
   }
 
   public DifferentialDrive getRobotDrive() {

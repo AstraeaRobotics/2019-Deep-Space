@@ -64,20 +64,20 @@ public class CargoCommand extends Command {
     }*/
 
     protected void execute() {
-        if(oi.getDriverGamepad().getRawButtonPressed(2)){
+        if(oi.getOperatorGamepad().getRawButtonPressed(2)){
             intakeMotor.set(ControlMode.PercentOutput, 1*Constants.cargoIntakeMotorSpeed);
             cargoMotor.set(ControlMode.PercentOutput, -0.5*Constants.cargoMotorSpeed);
-        }else if(oi.getDriverGamepad().getRawButtonPressed(3)){
+        }else if(oi.getOperatorGamepad().getRawButtonPressed(3)){
             intakeMotor.set(ControlMode.PercentOutput, -1*Constants.cargoIntakeMotorSpeed);
-        }else if(oi.getDriverGamepad().getRawButtonPressed(5)){
-            cargoMotor.set(ControlMode.PercentOutput, -0.5*Constants.cargoIntakeMotorSpeed);
-        }else if(oi.getDriverGamepad().getRawButtonPressed(8)){
+        //}else if(oi.getDriverGamepad().getRawButtonPressed(5)){
+            //cargoMotor.set(ControlMode.PercentOutput, -0.5*Constants.cargoIntakeMotorSpeed);
+        }else if(oi.getOperatorGamepad().getRawButtonPressed(8)){
             cargoMotor.set(ControlMode.PercentOutput, 1*Constants.cargoMotorSpeed);
-        }else if(oi.getDriverGamepad().getRawButtonPressed(6)){
-            cargoMotor.set(ControlMode.PercentOutput, 0.25*Constants.cargoMotorSpeed);
-        }else if(oi.getDriverGamepad().getRawButtonPressed(7)){
+        //}else if(oi.getDriverGamepad().getRawButtonPressed(6)){
+            //cargoMotor.set(ControlMode.PercentOutput, 0.25*Constants.cargoMotorSpeed);
+        }else if(oi.getOperatorGamepad().getRawButtonPressed(7)){
             cargoMotor.set(ControlMode.PercentOutput, -1*Constants.cargoMotorSpeed);
-        }else if(oi.getDriverGamepad().getRawButtonReleased(2)||oi.getDriverGamepad().getRawButtonReleased(3)||oi.getDriverGamepad().getRawButtonReleased(5)||oi.getDriverGamepad().getRawButtonReleased(6)||oi.getDriverGamepad().getRawButtonReleased(7)||oi.getDriverGamepad().getRawButtonReleased(8)){
+        }else if(oi.getOperatorGamepad().getRawButtonReleased(2)||oi.getOperatorGamepad().getRawButtonReleased(3)||oi.getOperatorGamepad().getRawButtonReleased(5)||oi.getOperatorGamepad().getRawButtonReleased(6)||oi.getOperatorGamepad().getRawButtonReleased(7)||oi.getOperatorGamepad().getRawButtonReleased(8)){
             cargoMotor.set(ControlMode.PercentOutput, 0);
             intakeMotor.set(ControlMode.PercentOutput, 0);
         }
