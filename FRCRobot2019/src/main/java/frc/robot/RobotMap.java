@@ -57,6 +57,8 @@ public class RobotMap {
   //Verrrrrry arbitrary number here that will need to be edited
   public static int rampEncoderTicks = 30;
 
+  public static double ultscalingfactor = 5000/4.885;
+
 public static int ticksInAngle;
 
 public static int rampPIDConstant;
