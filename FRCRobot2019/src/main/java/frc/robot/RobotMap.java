@@ -17,6 +17,7 @@ public class RobotMap {
 
   //JOYSTICK PORTS
   public static int driveGamepad = 0;
+  public static int operatorGamepad = 1;
 
   //CAN PORTS
   public static int leftDriveMotor = 0;
@@ -30,14 +31,15 @@ public class RobotMap {
   // public static int rangefinderModule = 1;
 
   //Pneumatic Shtuff
-  public static int hatchPneumaticForward = 0;
-  public static int hatchPneumaticBackward = 1;
-  
+  public static int hatchPneumaticForward = 1;
+  public static int hatchPneumaticBackward = 2;
+
   public static int compressor = 0;
 
   // Shooter and Intake for Cargo
-  public static int cargoVictor1p = 0;
-  public static int cargoVictor2p = 0;
+  public static int cargoMainMotor = 0;
+  public static int cargoIntakeMotor = 0;
+  public static int cargoArmMotor = 0;
 
   // All the ramp things :|
   //public static int rampBAGMotor = 0;
@@ -61,5 +63,5 @@ public class RobotMap {
 
 public static int ticksInAngle;
 
-public static int rampPIDConstant;
+  public static int rampPIDConstant;
 }

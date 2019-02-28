@@ -43,8 +43,15 @@ public class HatchCommandTeleop extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    PID();
-    pneumatic.set(DoubleSolenoid.Value.kForward);
+    //PID();
+    if(oi.getOperatorGamepad().getRawButtonPressed(5)){
+      motor.set(ControlMode.PercentOutput, -0.15);
+    }else if(oi.getOperatorGamepad().getRawButtonPressed(6)){
+      motor.set(ControlMode.PercentOutput, 0.15);
+    }else if(oi.getOperatorGamepad().getRawButtonReleased(5)||oi.getOperatorGamepad().getRawButtonReleased(6)){
+      motor.set(ControlMode.PercentOutput, 0);
+    }
+    pneumatic.set(DoubleSolenoid.Value.kForward); //kOff, kReverse
   }
 
   @Override

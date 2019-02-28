@@ -40,6 +40,10 @@ public class I2CDataSubsystem extends Subsystem {
     public I2CDataSubsystem(OI oi, Robot robot) {
         this.oi = oi;
         this.robot = robot;
+
+        colorSensorLeft = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorLeft); 
+        colorSensorCenter = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorCenter);
+        colorSensorRight = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorRight);
     }
 
     @Override
@@ -53,11 +57,6 @@ public class I2CDataSubsystem extends Subsystem {
         final ByteBuffer buffyRight = ByteBuffer.allocate(8);
 
         //public short red1 = 0, green1 = 0, blue1 = 0, red2 = 0, green2 = 0, blue2 = 0, red3 = 0, green3 = 0, blue3 = 0;
-
-      
-        colorSensorLeft = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorLeft); 
-        colorSensorCenter = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorCenter);
-        colorSensorRight = new I2C(I2C.Port.kOnboard, RobotMap.colorSensorRight);
 
         colorSensorLeft.write(CMD | 0x00, PON | AEN); /// Powers on Color Sensor
         colorSensorLeft.write(CMD | 0x01, (int) (256-integrationTime/2.38));

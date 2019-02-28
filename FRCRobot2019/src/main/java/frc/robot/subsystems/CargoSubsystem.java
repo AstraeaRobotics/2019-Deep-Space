@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,8 +12,9 @@ import frc.robot.Robot;
 public class CargoSubsystem {
     private Robot robot;
     private OI oi;
-    private VictorSPX intake;
-    private VictorSPX shooter;
+    private VictorSPX cargoMotor;
+    private VictorSPX intakeMotor;
+    private TalonSRX armMotor;
 
     CargoSubsystem(OI oi, Robot robot) {
         this.oi = oi;
