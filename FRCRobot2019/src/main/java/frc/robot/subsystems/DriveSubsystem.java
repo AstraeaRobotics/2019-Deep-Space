@@ -7,27 +7,74 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.OI;
-import frc.robot.Robot;
-import frc.robot.commands.DriveCommandTeleop;
+import frc.robot.Constants;
+import frc.robot.subsystems.SensorSubsystem;
 
+
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxFrames;
+import com.revrobotics.CANSparkMaxLowLevel;
+
+/**
+ * An example subsystem.  You can replace me with your own Subsystem.
+ */
 public class DriveSubsystem extends Subsystem {
-  private Robot robot;
-  private OI oi;
- 
-
-  public DriveSubsystem(OI oi, Robot robot) {
-    this.robot = robot;
-    this.oi = oi;
+  private CANSparkMax omniMotor = new CANSparkMax(RobotMap.omniMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private DifferentialDrive hDrive = new DifferentialDrive(
+    new CANSparkMax(RobotMap.leftMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
+    new CANSparkMax(RobotMap.rightMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
+  );
+  private OI m_oi;
+  private SensorSubsystem m_SensorSubsystem;
+  public DriveSubsystem(OI m_oi, SensorSubsystem m_SensorSubsystem){
+    this.m_oi = m_oi;
+    this.m_SensorSubsystem = m_SensorSubsystem;
   }
+
+  public CANSparkMax getOmniMotor(){
+    return omniMotor;
+  }
+
+  public DifferentialDrive getHDrive(){
+    return hDrive;
+  }
+
+  public void drive(){
+    if (m_oi.operator_gamepad.getRawButtonPressed(1)){
+      hDrive.arcadeDrive(0, .1*(m_SensorSubsystem.getInches1() - m_SensorSubsystem.getInches2()));
+    } else { // Drive code;
+      if (/*m_oi.driver_gamepad.getRawAxis(2)*/ m_oi.readOmniAxis() > frc.robot.Constants.omniDeadzone){
+          hDrive.arcadeDrive(
+            -m_oi.readForwardAxis()*Constants.driveSpeed,
+            -0.5
+          );
+          omniMotor.set(m_oi.readOmniAxis()*Constants.omniSpeed);
+      } else if (/*m_oi.driver_gamepad.getRawAxis(2)*/ m_oi.readOmniAxis() < frc.robot.Constants.omniDeadzone){
+        hDrive.arcadeDrive(
+          -m_oi.readForwardAxis()*Constants.driveSpeed,
+          0.5
+        );
+        omniMotor.set(m_oi.readOmniAxis()*Constants.omniSpeed);
+      } else {
+        hDrive.arcadeDrive(
+          -m_oi.readForwardAxis()*Constants.driveSpeed,
+          m_oi.readTurnAxis()*Constants.turnSpeed
+        );
+        omniMotor.set(0);
+      }
+    }
+  }
+
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
 
   @Override
   public void initDefaultCommand() {
-    Command command = new DriveCommandTeleop(oi, robot);
-    command.start();
-    
+    // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
 }

@@ -14,54 +14,29 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
+  public static int omniMotor = 1;
+  public static int leftMotor = 3;
+  public static int rightMotor = 2;
 
-  //JOYSTICK PORTS
-  public static int driveGamepad = 0;
+  public static int driverGamepad = 0;  
   public static int operatorGamepad = 1;
 
-  //CAN PORTS
-  public static int leftDriveMotor = 0;
-  public static int rightDriveMotor = 1;
-  public static int hDriveMotor = 2;
-  public static int hatchMotor = 3;
+  public static int panelHolder = 0;
+  public static int hatchPushForwardCh = 1;
+  public static int hatchPushReverseCh = 2;
+  public static int hatchMotor = 7;
+
+  public static int cargoShooter = 9;
+  public static int cargoIntakeDrive = 8;
+
+
+  // For example to map the left and right motors, you could define the
+  // following variables to use with your drivetrain subsystem.
+  // public static int leftMotor = 1;
+  // public static int rightMotor = 2;
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
-
-  //Pneumatic Shtuff
-  public static int hatchPneumaticForward = 1;
-  public static int hatchPneumaticBackward = 2;
-
-  public static int compressor = 0;
-
-  // Shooter and Intake for Cargo
-  public static int cargoMainMotor = 0;
-  public static int cargoIntakeMotor = 0;
-  public static int cargoArmMotor = 0;
-
-  // All the ramp things :|
-  //public static int rampBAGMotor = 0;
-  //public static int ramp775Pro = 0;
-  //public static int rampDigitalInput1 = 0;
-  //public static int rampDigitalInput2 = 0;
-  public static int rampSolenoid1ch = 0;
-  public static int rampSolenoid2ch = 0;
-
-  public static int alignmentLSensorIN = 0;
-  public static int alignmentLSensorOUT = 0;
-  public static int alignmentMSensorIN = 0;
-  public static int alignmentMSensorOUT = 0;
-  public static int alignmentRSensorIN = 0;
-  public static int alignmentRSensorOUT = 0;
-
-  //Verrrrrry arbitrary number here that will need to be edited
-  public static int rampEncoderTicks = 30;
-
-  public static double ultscalingfactor = 5000/4.885;
-
-public static int ticksInAngle;
-
-  public static int rampPIDConstant;
 }

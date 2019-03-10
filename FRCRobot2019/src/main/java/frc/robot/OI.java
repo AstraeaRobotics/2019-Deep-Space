@@ -7,87 +7,55 @@
 
 package frc.robot;
 
-import frc.robot.RobotMap;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxFrames;
-import com.revrobotics.CANSparkMaxLowLevel;
-
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.buttons.*;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  protected GenericHID driver_gamepad = new Joystick(RobotMap.driveGamepad); //Ports and joystick mapping to be changed later
+  protected GenericHID driver_gamepad = new Joystick(RobotMap.driverGamepad);
+  public double readForwardAxis(){return driver_gamepad.getRawAxis(ControlMap.forwardAxis);}
+  public double readOmniAxis(){return driver_gamepad.getRawAxis(ControlMap.omniAxis);}
+  public double readTurnAxis(){return driver_gamepad.getRawAxis(ControlMap.turnAxis);}
+
   protected GenericHID operator_gamepad = new Joystick(RobotMap.operatorGamepad);
-  //Playstation DualShock 4 Mapping
-  // Axis 0:    Left Stick X
-  // Axis 1:    Left Stick Y
-  // Axis 2:    Right Stick X
-  // Axis 3:    Left Bumper
-  // Axis 4:    Right Bumper
-  // Axis 5:    RIght Stick Y
-  //protected Button driveModifier = JoystickButton(driver_gamepad, RobotMap.driveModifierButton);
-  //protected Button spinModifier = JoystickButton(driver_gamepad, RobotMap.spinModifierButton);
-  protected CANSparkMax driveomni;
-  protected DoubleSolenoid hatchDoubleSolenoid;
-  protected Compressor compressor;
-  protected boolean isAutomated = false;
-  protected Encoder hatchEncoder;
+  protected Button cargoForwardButton = new JoystickButton(operator_gamepad, ControlMap.cargoForwardButton);
+  protected Button cargoReverseButton = new JoystickButton(operator_gamepad, ControlMap.cargoReverseButton);
+  protected Button cargoIntakeForwardButton = new JoystickButton(operator_gamepad, ControlMap.cargoIntakeForwardButton);
+  protected Button cargoIntakeReverseButton = new JoystickButton(operator_gamepad, ControlMap.cargoIntakeReverseButton);
+  protected Button hatchForwardButton = new JoystickButton(operator_gamepad, ControlMap.hatchForwardButton);
+  protected Button hatchReverseButton = new JoystickButton(operator_gamepad, ControlMap.hatchReverseButton);
+  protected Button hatchRetainButton = new JoystickButton(operator_gamepad, ControlMap.hatchRetainButton);
+  protected Button hatchReleaseButton = new JoystickButton(operator_gamepad, ControlMap.hatchReleaseButton);
+  protected Button hatchPushButton = new JoystickButton(operator_gamepad, ControlMap.hatchPushButton);
+  //protected Button hatchRetractButton = new JoystickButton(operator_gamepad, RobotMap.og_hatchRetractButton);
 
-  public GenericHID getDriverGamepad() {
-    return driver_gamepad;   
+  public OI(){
+
+    cargoForwardButton.whileHeld(new CargoCommand(1));
+    cargoReverseButton.whileHeld(new CargoCommand(-1));
+
+    cargoIntakeForwardButton.whileHeld(new CargoIntakeCommand());
+    cargoIntakeReverseButton.whileHeld(new CargoIntakeReverseCommand());
+
+    hatchForwardButton.whileHeld(new HatchArmCommand(1));
+    hatchReverseButton.whileHeld(new HatchArmCommand(-1));
+
+    hatchRetainButton.whenPressed(new HatchRetainCommand(true));
+    hatchReleaseButton.whenPressed(new HatchRetainCommand(false));
+
+    hatchPushButton.whenPressed(new HatchPushCommand(true));
+    hatchPushButton.whenReleased(new HatchPushCommand(false));
+
   }
 
-  public GenericHID getOperatorGamepad(){
-    return operator_gamepad;
-  }
+  // please help
 
-  public DifferentialDrive getRobotDrive() {
-    DifferentialDrive hdrive = new DifferentialDrive(new CANSparkMax(RobotMap.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless), new CANSparkMax(RobotMap.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless));
-    hdrive.setSafetyEnabled(true);
-    hdrive.setExpiration(Constants.expirationTime);
-    return hdrive;
-  }
-
-  public CANSparkMax getOmniMotor() {
-    driveomni = new CANSparkMax(RobotMap.hDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    return driveomni;
-  }
-
-  public DoubleSolenoid getHatchDoubleSolenoid() {
-    hatchDoubleSolenoid = new DoubleSolenoid(RobotMap.hatchPneumaticForward, RobotMap.hatchPneumaticBackward);
-    return hatchDoubleSolenoid;
-  }
-
-  public Compressor getCompressor() {
-    compressor = new Compressor(RobotMap.compressor);
-    return compressor;
-  }
-
-  public boolean isAutomated(){
-    return isAutomated;
-  }
-
-  public void setAutomated(boolean isAutomated){
-    this.isAutomated = isAutomated;
-  }
-
-  public Encoder getHatchPIDEncoder() {
-    hatchEncoder = new Encoder(0,1, false, Encoder.EncodingType.k4X);
-	  return hatchEncoder;
-  }
-
-  //I am editing the code in some way
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
@@ -115,6 +83,4 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
-
-  
 }
