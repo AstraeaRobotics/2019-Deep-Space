@@ -34,7 +34,7 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -211,9 +211,9 @@ public class Robot extends SampleRobot {
 			if(m_stick.getRawAxis(2)>.3)
 			{				
 				hdrive.arcadeDrive(
-          -m_stick.getRawAxis(5)*Constants.driveSpeed,
-          -0.5
-        );
+          			-m_stick.getRawAxis(5)*Constants.driveSpeed,
+          			-0.5
+        		);
 				omniMotor.set(m_stick.getRawAxis(2)*Constants.omniSpeed);
 			}
 			else if(m_stick.getRawAxis(2)<-.3)
