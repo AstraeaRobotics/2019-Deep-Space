@@ -45,27 +45,33 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void drive(){
-    if (m_oi.operator_gamepad.getRawButtonPressed(1)){
+    if (m_oi.getOperatorGamepad().getRawButtonPressed(1)){ // Auto-align code
       hDrive.arcadeDrive(0, .1*(m_SensorSubsystem.getInches1() - m_SensorSubsystem.getInches2()));
     } else { // Drive code;
-      if (/*m_oi.driver_gamepad.getRawAxis(2)*/ m_oi.readOmniAxis() > frc.robot.Constants.omniDeadzone){
-          hDrive.arcadeDrive(
+      if (m_oi.readOmniAxis() > frc.robot.Constants.omniDeadzone){
+        hDrive.curvatureDrive(-m_oi.readForwardAxis(), m_oi.readOmniAxis(), m_oi.readQuickTurn());
+        omniMotor.set(-m_oi.readOmniAxis());
+        /*hDrive.arcadeDrive(
             -m_oi.readForwardAxis()*Constants.driveSpeed,
             -0.5
           );
-          omniMotor.set(m_oi.readOmniAxis()*Constants.omniSpeed);
-      } else if (/*m_oi.driver_gamepad.getRawAxis(2)*/ m_oi.readOmniAxis() < frc.robot.Constants.omniDeadzone){
-        hDrive.arcadeDrive(
+          omniMotor.set(m_oi.readOmniAxis()*Constants.omniSpeed);*/
+      } else if (m_oi.readOmniAxis() < -frc.robot.Constants.omniDeadzone){
+        hDrive.curvatureDrive(-m_oi.readForwardAxis(), m_oi.readOmniAxis(), m_oi.readQuickTurn());
+        omniMotor.set(-m_oi.readOmniAxis());
+        /*hDrive.arcadeDrive(
           -m_oi.readForwardAxis()*Constants.driveSpeed,
           0.5
         );
-        omniMotor.set(m_oi.readOmniAxis()*Constants.omniSpeed);
+        omniMotor.set(m_oi.readOmniAxis()*Constants.omniSpeed);*/
       } else {
-        hDrive.arcadeDrive(
+        hDrive.curvatureDrive(-m_oi.readForwardAxis(), m_oi.readOmniAxis(), m_oi.readQuickTurn());
+        omniMotor.set(0);
+        /*hDrive.arcadeDrive(
           -m_oi.readForwardAxis()*Constants.driveSpeed,
           m_oi.readTurnAxis()*Constants.turnSpeed
         );
-        omniMotor.set(0);
+        omniMotor.set(0);*/
       }
     }
   }

@@ -14,7 +14,8 @@ public class ControlMap {
   public static int forwardAxis = 5;
   public static int omniAxis = 2;
   public static int turnAxis = 0;
-
+  
+  public static int quickTurnButton = 5;
   public static int cargoForwardButton = 0;
   public static int cargoReverseButton = 0;
   public static int cargoIntakeForwardButton = 2;

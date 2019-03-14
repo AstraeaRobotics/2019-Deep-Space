@@ -19,11 +19,14 @@ import frc.robot.commands.*;
  */
 public class OI {
   protected GenericHID driver_gamepad = new Joystick(RobotMap.driverGamepad);
+  public GenericHID getDriverGamepad(){ return driver_gamepad;};
   public double readForwardAxis(){return driver_gamepad.getRawAxis(ControlMap.forwardAxis);}
   public double readOmniAxis(){return driver_gamepad.getRawAxis(ControlMap.omniAxis);}
   public double readTurnAxis(){return driver_gamepad.getRawAxis(ControlMap.turnAxis);}
+  public boolean readQuickTurn(){return driver_gamepad.getRawButton(ControlMap.quickTurnButton);}
 
   protected GenericHID operator_gamepad = new Joystick(RobotMap.operatorGamepad);
+  public GenericHID getOperatorGamepad(){ return operator_gamepad;};
   protected Button cargoForwardButton = new JoystickButton(operator_gamepad, ControlMap.cargoForwardButton);
   protected Button cargoReverseButton = new JoystickButton(operator_gamepad, ControlMap.cargoReverseButton);
   protected Button cargoIntakeForwardButton = new JoystickButton(operator_gamepad, ControlMap.cargoIntakeForwardButton);
