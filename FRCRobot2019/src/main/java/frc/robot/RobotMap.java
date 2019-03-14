@@ -61,7 +61,7 @@ public class RobotMap {
 
   public static double ultscalingfactor = 5000/4.885;
 
-public static int ticksInAngle;
+  public static int ticksInAngle;
 
   public static int rampPIDConstant;
 }

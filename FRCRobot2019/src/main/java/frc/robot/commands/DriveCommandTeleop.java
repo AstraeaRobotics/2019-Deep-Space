@@ -60,17 +60,17 @@ public class DriveCommandTeleop extends Command {
 
     public void usePi(String ip) {
         NetworkTable table = NetworkTable.getTable("Vision");
-	double angle = table.getNumber("angle", 0);
-        while(oi.getDriverGamepad().getRawButton(19) {
+	double angle = table.getNumber("LeftRightValue", 0);
+        while(oi.getDriverGamepad().getRawButton(19)) {
 	    if(angle > 0) {
                 while(angle > 0) {
                     omniMotor.set(.1);
-                    angle = table.getNumber("angle", 0);
+                    angle = table.getNumber("LeftRightValue", 0);
                 }
             } else if(angle < 0) {
                 while(angle < 0) {
                     omniMotor.set(-.1);
-                    angle = table.getNumber("angle", 0);
+                    angle = table.getNumber("LeftRightValue", 0);
                 }
             }
 	}
