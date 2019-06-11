@@ -226,10 +226,12 @@ public class Robot extends SampleRobot {
 			}
 			else 
 			{
-				hdrive.arcadeDrive(
+				/*hdrive.arcadeDrive(
           -m_stick.getRawAxis(5)*Constants.driveSpeed,
           m_stick.getRawAxis(0)*Constants.turnSpeed
-        );
+		);*/
+				hdrive.curvatureDrive(m_stick.getY(), m_stick.getX(), false);
+				
 				omniMotor.set(0);
 			}
 			//

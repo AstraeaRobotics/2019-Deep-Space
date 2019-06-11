@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -27,13 +29,15 @@ import frc.robot.subsystems.SensorSubsystem;;
  * project.
  */
 public class Robot extends TimedRobot {
+  public static OI m_oi;
   public static CargoSubsystem m_CargoSubsystem = new CargoSubsystem();
   public static HatchSubsystem m_HatchSubsystem = new HatchSubsystem();
-  public static DriveSubsystem m_DriveSubsystem = new DriveSubsystem();
   public static SensorSubsystem m_SensorSubsystem = new SensorSubsystem();
+  
+  public static DriveSubsystem m_DriveSubsystem = new DriveSubsystem(m_oi, m_SensorSubsystem);
   public static CANSparkMax omniMotor = m_DriveSubsystem.getOmniMotor();
   public static DifferentialDrive hDrive = m_DriveSubsystem.getHDrive();
-  public static OI m_oi;
+  
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -103,7 +107,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+      m_DriveSubsystem.initDefaultCommand();
     }
   }
 
@@ -133,6 +137,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { // (Do drive code here ??)
     Scheduler.getInstance().run(); 
     m_DriveSubsystem.drive();
+
+    m_HatchSubsystem.initDefaultCommand();
+    m_CargoSubsystem.initDefaultCommand();
+
+
+
   }
 
   /**

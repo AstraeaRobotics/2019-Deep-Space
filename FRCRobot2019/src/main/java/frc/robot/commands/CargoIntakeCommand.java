@@ -52,7 +52,6 @@ public class CargoIntakeCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    speed = 0;
     m_CargoSubsystem.setIntakeMotorSpeed(0);
   }
 }
