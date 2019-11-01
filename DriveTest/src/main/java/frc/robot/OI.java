@@ -9,5 +9,5 @@ public class OI {
     public OI() {
         m_stick = new Joystick(0);
         op = new Joystick(1);
-    }
+    } 
 }
